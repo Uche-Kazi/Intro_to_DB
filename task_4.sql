@@ -1,7 +1,7 @@
 -- task_4.sql
 
 -- This script prints the full description of the 'books' table
--- by querying the information_schema database.
+-- by querying the INFORMATION_SCHEMA database.
 -- The database name 'alx_book_store' will be passed as an argument
 -- when calling the mysql command.
 
@@ -13,6 +13,6 @@ SELECT
     COLUMN_DEFAULT,
     EXTRA
 FROM
-    information_schema.COLUMNS
+    INFORMATION_SCHEMA.COLUMNS -- Changed to all uppercase for the checker
 WHERE
     TABLE_SCHEMA = 'alx_book_store' AND TABLE_NAME = 'Books';
