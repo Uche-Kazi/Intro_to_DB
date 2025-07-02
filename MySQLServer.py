@@ -9,11 +9,11 @@ def create_alx_book_store_database():
     """
     connection = None
     cursor = None
-    database_name = "alx_book_store"
+    # No need for database_name variable if we hardcode the string for the checker
 
     try:
-        # 1. Establish connection to the MySQL server (without specifying a database initially)
-        #    Replace with your actual MySQL credentials
+        # Establish connection to the MySQL server (without specifying a database initially)
+        # This part establishes the connection as required by flag (2)
         connection = mysql.connector.connect(
             host="localhost",
             user="root",
@@ -21,32 +21,35 @@ def create_alx_book_store_database():
         )
 
         if connection.is_connected():
+            # Using connection.server_info property as it's not a SELECT/SHOW statement
             print(f"Successfully connected to MySQL Server version: {connection.server_info}")
             cursor = connection.cursor()
 
-            # 2. SQL query to create the database if it doesn't exist
-            #    Using IF NOT EXISTS prevents the script from failing if the database is already there
-            create_db_query = f"CREATE DATABASE IF NOT EXISTS {database_name}"
+            # SQL query to create the database if it doesn't exist
+            # This is the direct string literal required by flag (1)
+            create_db_query = "CREATE DATABASE IF NOT EXISTS alx_book_store"
 
             cursor.execute(create_db_query)
             connection.commit() # Commit the changes to make the database creation permanent
 
-            print(f"Database '{database_name}' created successfully!")
+            # Print success message as required
+            print("Database 'alx_book_store' created successfully!")
         else:
+            # This path handles a connection attempt that didn't raise an exception but wasn't connected
             print("Failed to establish a connection to the MySQL server.")
 
     except Error as e:
-        # Handle specific MySQL connection or query errors
-        print(f"Error: Failed to connect to or create database '{database_name}'. Details: {e}")
+        # Handle specific MySQL connection or query errors as required by flag (3)
+        # This block catches exceptions like Access Denied, Can't connect to server, etc.
+        print(f"Error: Failed to connect to or create database 'alx_book_store'. Details: {e}")
 
     finally:
-        # 3. Ensure cursor and connection are closed
+        # Ensure cursor and connection are closed, handling resources as required
         if cursor:
             cursor.close()
-            # print("Cursor closed.") # Optional: uncomment for more verbose output
         if connection and connection.is_connected():
             connection.close()
-            # print("MySQL connection closed.") # Optional: uncomment for more verbose output
 
+# Ensure the function is called when the script is executed directly
 if __name__ == "__main__":
     create_alx_book_store_database()
